@@ -9,14 +9,18 @@ function App() {
 
   useEffect(() => {
       api.get('/repositories').then(response=> {
-          setRepositories(response.data);
+         
+        setRepositories(response.data);
       });
   },[]);
 
   async function handleAddRepository() {
            //setProjects([...projects,`Novo Projeto ${Date.now()}`]);
         const response = await api.post('repositories', {
-          title: "Desafio ReactJS"
+          title: "Desafio ReactJS",
+          url:"www.uol.com.br",
+          techs: ["node.js","react.js"]
+
 
         });
         const repository = response.data;
@@ -27,9 +31,10 @@ function App() {
   async function handleRemoveRepository(id) {
     await api.delete(`/repositories/${id}`);
 
-    const repositoryIndex = repositories.findIndex(repository => repository.id === id);
-    repositories.splice(repositoryIndex, 1);
-    setRepositories([...repositories]);
+     
+    setRepositories(repositories.filter(
+      repository => repository.id !== id
+    ));
     
   }
 
